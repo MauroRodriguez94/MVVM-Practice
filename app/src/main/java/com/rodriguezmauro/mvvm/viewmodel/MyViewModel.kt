@@ -3,26 +3,22 @@ package com.rodriguezmauro.mvvm.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.rodriguezmauro.mvvm.domain.FrutasUseCase
-import com.rodriguezmauro.mvvm.ui.modelo.Frutas
+import com.rodriguezmauro.mvvm.domain.FruitUseCase
+import com.rodriguezmauro.mvvm.ui.modelo.Fruit
 
 class MyViewModel: ViewModel() {
-    val frutasUseCase = FrutasUseCase()
-    private val listData = MutableLiveData<List<Frutas>>()
+    private val fruitUseCase = FruitUseCase() //this should be injected
+    private val listData = MutableLiveData<List<Fruit>>()
 
-    init {
-        getListaFrutas()
+    private fun setListData(fruitList: List<Fruit>) {
+        this.listData.value = fruitList
     }
 
-    fun setListData(listFrutas: List<Frutas>) {
-        this.listData.value = listFrutas
+    fun getFruitList() {
+        setListData(fruitUseCase.retrieveFruitList())
     }
 
-    fun getListaFrutas() {
-        setListData(frutasUseCase.obtenerListaDeFrutas())
-    }
-
-    fun getListaFrutasLiveData(): LiveData<List<Frutas>> {
+    fun getFruitListLiveData(): LiveData<List<Fruit>> {
         return listData
     }
 }
